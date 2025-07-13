@@ -16,7 +16,7 @@ function formatSeconds(seconds) {
 
 async function getSong(folder) {
   currFolder = folder;
-  let a = await fetch(`${folder}/`);
+  let a = await fetch(`/${folder}/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -77,7 +77,7 @@ async function displayAlbums() {
           <div class="play">
             <img src="img/icons8-play.png" alt="">
           </div>
-          <img src="songs/${folder}/cover.jpeg" alt="">
+          <img src="/songs/${folder}/cover.jpeg" alt="">
           <h2>${album.title}</h2>
           <p>${album.description}</p>
         </div>`;
