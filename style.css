@@ -3,6 +3,7 @@ body {
   color: white;
   font-family: "Spotify-Regular", sans-serif;
   
+  
 }
 * {
   margin: 0;
@@ -23,8 +24,8 @@ body {
   src: url("font/SpotifyMixUITitle.woff2") format("truetype");
 }
 
-nav {
-  width: 700px;
+nav{
+  width: 100vw;
 }
 .spotify-navbar {
   position: relative;
@@ -33,17 +34,20 @@ nav {
   justify-content: space-between;
   background-color: black;
   padding: 5px;
-  width: 100vw;
 }
 
 .spotify-navbar .left-section {
+  position: relative;
   padding-right: 300px;
   padding-left: 30px;
+
 }
 .spotify-navbar .mid-nav {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 20px;
+  
 }
 
 .mid-nav .search-bar {
@@ -70,9 +74,11 @@ nav {
 }
 
 .spotify-navbar .right-section {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 30px;
+  right: 60px;
 }
 
 .spotify-navbar .right-section a {
@@ -86,9 +92,7 @@ nav {
   color: white;
   transition: all 0.3s ease;
 }
-.right-section .right-section-right {
-  border-right: 1px solid white;
-}
+
 .right-section .right-section-right a {
   padding-right: 30px;
 }
@@ -101,7 +105,7 @@ nav {
 }
 .container {
   width: 100vw;
-  height: 100vh;
+  height: auto;
   display: flex;
   overflow: hidden;
 }
@@ -198,6 +202,7 @@ nav {
 .right {
   position: relative;
   width: 75vw;
+  height: auto;
   margin: 3px;
   margin-left: -6px;
   border-radius: 15px;
@@ -476,12 +481,12 @@ cursor: pointer;
 }
 
 
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1284px) {
   /* iPad / tablet styles ekhane likhbe */
   body {
      /* soft yellow bg */
     overflow-y: hidden;
-    background-color: #1fdf;
+    
     }
     .right{
   
@@ -489,16 +494,19 @@ cursor: pointer;
       margin-left: 0;
       width: 100%;
       
-
     }
  
   .left{
     width: 100vw;
+
     margin: 0;
 
   }
+  .spotifyPlaylist{
+    height: 81vh;
+  }
   .spotifyPlaylist .playbar{
-   margin-bottom : 100px;
+   margin-bottom : 0px;
    width: 90vw;
   
   }
@@ -520,7 +528,20 @@ cursor: pointer;
         justify-self: center;
   }
 
+.spotify-navbar .left-section{
+  padding: 12px;
 }
+.spotify-navbar{
+  justify-content: space-around;
+}
+.spotify-navbar .right-section{
+  display: none;
+}
+
+}
+
+
+
 
 
 @media (max-width: 600px) {
@@ -565,7 +586,15 @@ cursor: pointer;
   width: 90vw;
   overflow: hidden;
 }
-
+.spotify-navbar .left-section{
+  padding: 12px;
+}
+.spotify-navbar .mid-nav{
+  display: none;
+}
+.spotify-navbar .right-section{
+  display: none;
+}
 
 }
 
