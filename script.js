@@ -15,7 +15,7 @@ function formatSeconds(seconds) {
 
 async function getSong(folder) {
   currFolder = folder;
-  let a = await fetch(`/${folder}/`);
+  let a = await fetch(`${folder}/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
