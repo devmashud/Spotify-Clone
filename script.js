@@ -17,7 +17,7 @@ function formatSeconds(seconds) {
 
 async function getSong(folder) {
   currFolder = folder;
-  let a = await fetch(`http://127.0.0.1:3000/${folder}/`);
+  let a = await fetch(`${folder}/`);
   let response = await a.text();
 
   let div = document.createElement("div");
@@ -53,14 +53,16 @@ async function getSong(folder) {
   // NEW: Add event listeners to the dynamically created song <li> items here
   Array.from(songUL.getElementsByTagName("li")).forEach((e) => {
     e.addEventListener("click", () => {
-      const songName = e.querySelector(".info").firstElementChild.textContent.trim();
+      const songName = e
+        .querySelector(".info")
+        .firstElementChild.textContent.trim();
       playMusic(songName);
     });
   });
   return songs;
 }
 async function displayAlbums() {
-  let a = await fetch(`http://127.0.0.1:3000/songs/`);
+  let a = await fetch(`songs/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -71,7 +73,7 @@ async function displayAlbums() {
     const e = array[index];
     if (e.href.includes("/songs")) {
       let folder = e.href.split("/").slice(-2)[0];
-      let a = await fetch(`http://127.0.0.1:3000/songs/${folder}/info.json`);
+      let a = await fetch(`songs/${folder}/info.json`);
       let response = await a.json();
       cardConatiner.innerHTML += `  
         <div data-folder="${folder}" class="card">
@@ -87,8 +89,8 @@ async function displayAlbums() {
 
   Array.from(document.getElementsByClassName("card")).forEach((e) => {
     e.addEventListener("click", async (item) => {
-     songs = await getSong(`songs/${item.currentTarget.dataset.folder}`);
-     playMusic(songs[0]);
+      songs = await getSong(`songs/${item.currentTarget.dataset.folder}`);
+      playMusic(songs[0]);
     });
   });
 }
@@ -104,16 +106,14 @@ const playMusic = (trac, pause = false) => {
   document.querySelector(".songtime").textContent = "00:00/00:00";
 };
 
-
 async function main() {
   await getSong("songs/Atif_Aslam");
   playMusic(songs[0], true);
 
-  await displayAlbums()
-  
+  await displayAlbums();
 
   // FIXED: Removed this block from here as it's handled inside getSong() now
-  
+
   Array.from(
     document.querySelector(".songlist").getElementsByTagName("li")
   ).forEach((e) => {
@@ -121,7 +121,6 @@ async function main() {
       playMusic(e.querySelector(".info").firstElementChild.textContent.trim());
     });
   });
-  
 
   // Attach event listener to play/pause button
   play.addEventListener("click", () => {
@@ -132,7 +131,6 @@ async function main() {
       currentSong.pause();
       play.src = "img/play.svg";
     }
-    
   });
 
   currentSong.addEventListener("timeupdate", () => {
@@ -180,33 +178,29 @@ async function main() {
   });
 
   document
-    .querySelector(".range").getElementsByTagName("input")[0].addEventListener("change", (e) => {
+    .querySelector(".range")
+    .getElementsByTagName("input")[0]
+    .addEventListener("change", (e) => {
       currentSong.volume = parseInt(e.target.value) / 100;
     });
-   
-  
-  // add event listener to mute the track 
+
+  // add event listener to mute the track
 
   document.querySelector(".volume>img").addEventListener("click", (e) => {
-    if(e.target.src.includes("volume.svg")){
-      e.target.src =  e.target.src.replace("img/volume.svg", "img/mute.svg")
+    if (e.target.src.includes("volume.svg")) {
+      e.target.src = e.target.src.replace("img/volume.svg", "img/mute.svg");
       currentSong.volume = 0;
-      document.querySelector(".range").getElementsByTagName("input")[0].value = 0;
+      document
+        .querySelector(".range")
+        .getElementsByTagName("input")[0].value = 0;
+    } else {
+      e.target.src = e.target.src.replace("img/mute.svg", "img/volume.svg");
+      currentSong.volume = 0.2;
+      document
+        .querySelector(".range")
+        .getElementsByTagName("input")[0].value = 20;
     }
-    else{
-      e.target.src = e.target.src.replace("img/mute.svg", "img/volume.svg")
-      currentSong.volume = .20;
-      document.querySelector(".range").getElementsByTagName("input")[0].value = 20;
-
-    }
-    
-  }
-  )
-
-
+  });
 }
-
-
-
 
 main();
