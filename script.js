@@ -2,7 +2,6 @@ let currentSong = new Audio();
 let songs;
 let currFolder;
 let cardContainer = document.querySelector(".cardContainer");
-/
 const play = document.getElementById("play");
 const previous = document.getElementById("previous");
 const next = document.getElementById("next");
