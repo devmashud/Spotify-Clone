@@ -15,20 +15,11 @@ function formatSeconds(seconds) {
 
 async function getSong(folder) {
   currFolder = folder;
-  let a = await fetch(`${folder}/`);
-  let response = await a.text();
-  let div = document.createElement("div");
-  div.innerHTML = response;
-  let as = div.getElementsByTagName("a");
-  songs = [];
+  let res = await fetch("songs.json");
+  let allSongs = await res.json();
+  let folderName = folder.split("/").pop(); // get only folder name
 
-  for (let index = 0; index < as.length; index++) {
-    const element = as[index];
-    if (element.href.endsWith(".mp3")) {
-      songs.push(element.href.split(`/${folder}/`)[1].replaceAll("%20", " "));
-    }
-  }
-
+  songs = allSongs[folderName];
   let songUL = document.querySelector(".songlist ul");
   songUL.innerHTML = "";
 
@@ -58,29 +49,22 @@ async function getSong(folder) {
 }
 
 async function displayAlbums() {
-  let a = await fetch(`/songs/`);
-  let response = await a.text();
-  let div = document.createElement("div");
-  div.innerHTML = response;
-  let anchors = div.getElementsByTagName("a");
-  let array = Array.from(anchors);
+  let res = await fetch("songs.json");
+  let allSongs = await res.json();
 
-  for (let index = 0; index < array.length; index++) {
-    const e = array[index];
-    if (e.href.includes("/songs")) {
-      let folder = e.href.split("/").slice(-2)[0];
-      let res = await fetch(`/songs/${folder}/info.json`);
-      let album = await res.json();
-      cardContainer.innerHTML += `  
-        <div data-folder="${folder}" class="card">
-          <div class="play">
-            <img src="img/icons8-play.png" alt="">
-          </div>
-          <img src="/songs/${folder}/cover.jpeg" alt="">
-          <h2>${album.title}</h2>
-          <p>${album.description}</p>
-        </div>`;
-    }
+  for (let folder in allSongs) {
+    let infoRes = await fetch(`songs/${folder}/info.json`);
+    let album = await infoRes.json();
+
+    cardContainer.innerHTML += `  
+      <div data-folder="${folder}" class="card">
+        <div class="play">
+          <img src="img/icons8-play.png" alt="">
+        </div>
+        <img src="/songs/${folder}/cover.jpeg" alt="">
+        <h2>${album.title}</h2>
+        <p>${album.description}</p>
+      </div>`;
   }
 
   document.querySelectorAll(".card").forEach((e) => {
